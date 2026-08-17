@@ -105,8 +105,20 @@
            text-decoration:none;border:2px solid var(--ink);border-radius:14px;padding:10px 12px;background:#fff}
   .share button{margin-top:10px;width:100%;font-size:16px;padding:13px 10px;background:#cfe9dc}
 
-  footer{margin-top:18px;text-align:center;color:var(--muted);font-size:12px;line-height:1.7}
+  .paper{display:block;margin-top:14px;text-align:center;font-size:15px;font-weight:700;
+         color:var(--ink);text-decoration:none;background:#fff;
+         border:2px solid var(--ink);border-radius:14px;padding:12px}
+
+  footer{margin-top:22px;text-align:center;color:var(--muted);font-size:12px;line-height:1.7}
   footer a{color:var(--muted)}
+  .brand{background:#1d3557;border:2px solid var(--ink);border-radius:18px;
+         padding:14px;display:flex;justify-content:center;margin-bottom:12px}
+  .brand img{width:150px;height:auto;display:block}
+  .social{display:flex;justify-content:center;gap:10px;margin-bottom:12px}
+  .social a{display:flex;align-items:center;justify-content:center;width:40px;height:40px;
+            border:2px solid var(--ink);border-radius:12px;background:var(--card);color:var(--ink)}
+  .social svg{width:20px;height:20px}
+  .site{display:inline-block;margin-bottom:12px;font-weight:700;color:var(--ink)}
   .hidden{display:none}
 </style>
 </head>
@@ -182,6 +194,8 @@
       <p class="note" id="fNote"></p>
       <p class="punch">אי אפשר לגייס מורים חדשים למערכת שמלמדת אותם לשתוק.</p>
 
+      <a class="paper" href="teacher-shortage-position-paper.pdf" target="_blank" rel="noopener">נייר העמדה המלא: משבר כוח האדם בהוראה</a>
+
       <div class="share">
         <p>הקישור למשחק המלא</p>
         <a href="https://royherbertcohen-coder.github.io/shimua-game/">royherbertcohen-coder.github.io/shimua-game</a>
@@ -193,8 +207,36 @@
   </div>
 
   <footer>
+    <div class="brand">
+      <a href="https://berl.org.il/" target="_blank" rel="noopener">
+        <img src="berl-logo.png" alt="קרן ברל כצנלסון">
+      </a>
+    </div>
+
+    <div class="social">
+      <a href="https://www.facebook.com/kerenberl" target="_blank" rel="noopener" aria-label="פייסבוק">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15 3h-3a5 5 0 0 0-5 5v3H4v4h3v6h4v-6h3l1-4h-4V8a1 1 0 0 1 1-1h3z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/berl_keren/" target="_blank" rel="noopener" aria-label="אינסטגרם">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/>
+          <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+      <a href="https://x.com/keren_berlk" target="_blank" rel="noopener" aria-label="אקס">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h5.2l4 5.4L17.2 3H21l-6.6 7.9L21.6 21h-5.2l-4.4-5.9L6.6 21H3l7-8.4z"/></svg>
+      </a>
+      <a href="https://berl.org.il/" target="_blank" rel="noopener" aria-label="האתר">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9S14.5 18.4 12 21c-2.5-2.6-3.8-5.7-3.8-9S9.5 5.6 12 3z"/>
+        </svg>
+      </a>
+    </div>
+
     הפוסטים מומצאים. הנוהג פחות.<br>
-    הנתונים מתוך מרכז המחקר והמידע של הכנסת ונייר עמדה על משבר כוח האדם בהוראה
+    הנתונים מתוך מרכז המחקר והמידע של הכנסת ומתוך
+    <a href="teacher-shortage-position-paper.pdf" target="_blank" rel="noopener">נייר העמדה</a>
+    על משבר כוח האדם בהוראה
   </footer>
 
 </div>

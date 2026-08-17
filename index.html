@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>מותר או שימוע</title>
+<meta name="description" content="משחק קצר על משבר כוח האדם בהוראה. 15 פוסטים של מורים, ואתם מחליטים מי מגיע לשימוע.">
+<meta property="og:title" content="מותר או שימוע">
+<meta property="og:description" content="15 פוסטים של מורים. תחליטו מי מגיע לשימוע.">
+<meta property="og:url" content="https://royherbertcohen-coder.github.io/shimua-game/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -41,13 +45,11 @@
     padding:22px 20px;
   }
 
-  /* intro */
   .intro p{font-size:16px;line-height:1.65;margin:0 0 14px}
   .intro p.big{font-size:18px;font-weight:700;line-height:1.5}
   .intro .stat{font-weight:900}
   .intro p.last{margin-bottom:0;color:#3c3831}
 
-  /* avatar */
   .hero{display:flex;align-items:center;gap:14px;margin-bottom:14px}
   .sprite{width:86px;height:100px;flex:none;image-rendering:pixelated;
           background:#e9e1d3;border:2px solid var(--ink);border-radius:16px;padding:6px}
@@ -55,6 +57,8 @@
   .hero .rank b{font-size:19px;line-height:1.2;display:block}
   .levelup{display:inline-block;margin-top:6px;font-size:12px;font-weight:700;
            background:#ffe9a8;border:2px solid var(--ink);border-radius:99px;padding:2px 10px}
+  @keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.12)}100%{transform:scale(1)}}
+  .pop{animation:pop .45s ease}
 
   .bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:0 0 10px}
   .bar span{display:block;height:100%;width:0;background:var(--ink);transition:width .25s ease}
@@ -95,7 +99,14 @@
   .end p.note{font-size:16px;line-height:1.65;color:#3c3831;margin:0 0 12px;text-align:right}
   .end p.punch{font-size:17px;font-weight:700;line-height:1.5;margin:0;text-align:right}
 
+  .share{margin-top:16px;border-top:2px dashed var(--line);padding-top:14px;text-align:center}
+  .share p{font-size:13px;color:var(--muted);margin:0 0 8px}
+  .share a{display:block;font-size:14px;font-weight:700;color:var(--ink);word-break:break-all;
+           text-decoration:none;border:2px solid var(--ink);border-radius:14px;padding:10px 12px;background:#fff}
+  .share button{margin-top:10px;width:100%;font-size:16px;padding:13px 10px;background:#cfe9dc}
+
   footer{margin-top:18px;text-align:center;color:var(--muted);font-size:12px;line-height:1.7}
+  footer a{color:var(--muted)}
   .hidden{display:none}
 </style>
 </head>
@@ -103,7 +114,7 @@
 <div class="wrap">
 
   <h1>מותר או שימוע</h1>
-  <p class="sub">משחק על מורים, פוסטים, ומה שנשאר מזה</p>
+  <p class="sub">משחק על מורים, פוסטים ומה שנשאר מזה</p>
 
   <!-- ===== INTRO ===== -->
   <div id="intro">
@@ -111,14 +122,13 @@
       <div class="hero">
         <svg class="sprite" id="introSprite" viewBox="0 0 14 14"></svg>
         <div class="rank">
-          <small>אתה מתחיל כאן</small>
+          <small>מתחילים כאן</small>
           <b>מתמחה בהוראה</b>
         </div>
       </div>
-      <p class="big"><span class="stat">77.5%</span> ממנהלי בתי הספר דיווחו על מחסור במורים. אחת הסיבות שמורים עוזבים: הם לא יודעים מה מותר להם לכתוב.</p>
-      <p>בשנתיים האחרונות מורים הוזמנו לשימוע בגלל פוסטים ברשתות. אין רשימה, אין כלל, אין גבול כתוב.</p>
-      <p>המשחק: 15 פוסטים. תחליט על כל אחד אם הוא עובר בשלום או מגיע לשימוע.</p>
-      <p class="last">כל תשובה נכונה מעלה אותך דרגה. תשים לב לזה בסוף.</p>
+      <p class="big"><span class="stat">77.5%</span> ממנהלי בתי הספר דיווחו בסוף תשפ"ב על מחסור במורים. אחת הסיבות שמורים עוזבים: הם כבר לא יודעים מה מותר להם לכתוב.</p>
+      <p>בשנים האחרונות עשרות מורים זומנו לשימוע בגלל פוסטים ברשתות. רשימה של מה אסור לפרסם לא קיימת.</p>
+      <p class="last">15 פוסטים. תחליטו על כל אחד אם הוא עובר בשלום או מגיע לשימוע. כל תשובה נכונה מעלה אתכם דרגה, ושווה לשים לב לזה בסוף.</p>
       <button class="wide" id="bStart">מתחילים</button>
     </div>
   </div>
@@ -129,7 +139,7 @@
       <div class="hero" style="margin-bottom:0">
         <svg class="sprite" id="gameSprite" viewBox="0 0 14 14"></svg>
         <div class="rank">
-          <small>הדרגה שלך</small>
+          <small>הדרגה שלכם</small>
           <b id="rankNow">מתמחה בהוראה</b>
           <span class="levelup hidden" id="levelup">עלית דרגה</span>
         </div>
@@ -170,14 +180,21 @@
       <p class="of">ניחושים נכונים מתוך 15</p>
       <p class="rankbig" id="fRank"></p>
       <p class="note" id="fNote"></p>
-      <p class="punch">מערכת שמלמדת מורים מה לא לכתוב, לא תמצא מורים חדשים שירצו לכתוב בה.</p>
+      <p class="punch">אי אפשר לגייס מורים חדשים למערכת שמלמדת אותם לשתוק.</p>
+
+      <div class="share">
+        <p>הקישור למשחק המלא</p>
+        <a href="https://royherbertcohen-coder.github.io/shimua-game/">royherbertcohen-coder.github.io/shimua-game</a>
+        <button id="bCopy">העתקת הקישור</button>
+      </div>
+
       <button class="wide" id="bAgain">עוד סיבוב</button>
     </div>
   </div>
 
   <footer>
     הפוסטים מומצאים. הנוהג פחות.<br>
-    מבוסס על נתוני מרכז המחקר והמידע של הכנסת ועל נייר עמדה בנושא משבר כוח האדם בהוראה
+    הנתונים מתוך מרכז המחקר והמידע של הכנסת ונייר עמדה על משבר כוח האדם בהוראה
   </footer>
 
 </div>
@@ -203,7 +220,6 @@ const BASE = [
   "...tttttttt..."
 ];
 
-/* 6 levels. shirt color + accessories */
 const LEVELS = [
   { name:"מתמחה בהוראה",     shirt:"#8fbfa9", acc:[] },
   { name:"מורה מן המניין",   shirt:"#7fb0d6", acc:["mug"] },
@@ -229,11 +245,10 @@ const ACC = {
 
 function sprite(el, level){
   const L = LEVELS[level];
-  const grid = BASE.map(r => r.split(""));
   let out = "";
-  for(let y=0;y<grid.length;y++){
-    for(let x=0;x<grid[y].length;x++){
-      const c = grid[y][x];
+  for(let y=0;y<BASE.length;y++){
+    for(let x=0;x<BASE[y].length;x++){
+      const c = BASE[y][x];
       if(c === ".") continue;
       const fill = (c === "t") ? L.shirt : PAL[c];
       out += '<rect x="'+x+'" y="'+y+'" width="1" height="1" fill="'+fill+'"/>';
@@ -257,7 +272,7 @@ const ITEMS = [
     ok:false, title:"שימוע", text:"פרסום נתונים על המוסד בלי אישור. פגיעה בתדמית." },
 
   { post:"שיתפה כתבה על תקציב משרד החינוך.",
-    ok:false, title:"שימוע", text:"הכתבה הופיעה בעיתון שלא נמצא ברשימה." },
+    ok:false, title:"שימוע", text:"הכתבה התפרסמה בעיתון שלא נמצא ברשימה." },
 
   { post:"תמונה של החתול. כתוב מתחת: הוא מסכים איתי על הכל.",
     ok:false, title:"שימוע", text:"נשאלה במה בדיוק הוא מסכים." },
@@ -269,15 +284,15 @@ const ITEMS = [
     ok:false, title:"שימוע", text:"לא הפוסט שלה. עדיין שלה." },
 
   { post:"כל הכבוד לתלמידים שלי שיצאו להפגין. גאה בכם.",
-    ok:false, title:"שימוע", text:"את זו ניחשת בקלות. תמשיך, זה נגמר." },
+    ok:false, title:"שימוע", text:"את זו ניחשתם בקלות. מכאן זה נהיה עמום." },
 
   { post:"אין מים חמים בחדר המורים כבר שבועיים.",
     ok:false, title:"שימוע", text:"תלונה שהיה נכון להעביר בערוצים הפנימיים." },
 
-  { post:"סרטון של הכיתה שרה את התקווה בטקס.",
+  { post:"סרטון: הכיתה שרה את התקווה בטקס.",
     ok:true, title:"מותר", text:"אושר. אפילו שותף בעמוד הרשמי." },
 
-  { post:"היום 30 שנה לרצח רבין. דיברנו על זה בכיתה.",
+  { post:"היום ציינו את יום הזיכרון לרצח רבין. דיברנו על זה בכיתה.",
     ok:false, title:"שימוע", text:"נטען שהשיעור לא היה מאוזן." },
 
   { post:"עייפה.",
@@ -286,18 +301,18 @@ const ITEMS = [
   { post:"מחפשת עבודה. כל הצעה תתקבל בברכה.",
     ok:true, title:"מותר", text:"על זה אף אחד לא קפץ. זאת בדיוק הבעיה." },
 
-  { post:"חוק חינוך ממלכתי, סעיף 2: לחנך לאהבת המולדת ולערכי דמוקרטיה.",
-    ok:false, title:"שימוע", text:"החוק עצמו. בלי פרשנות. בלי אימוג'י." },
+  { post:"מתוך מטרות חוק חינוך ממלכתי: לחנך לאהבת המולדת ולערכי הדמוקרטיה.",
+    ok:false, title:"שימוע", text:"החוק עצמו. בלי פרשנות, בלי אימוג'י." },
 
   { post:"התפטרתי. תודה לכולם על 14 שנה.",
-    ok:true, title:"מותר", text:"הפעם לא הזמינו אותה לשום מקום. גם לא התקשרו." }
+    ok:true, title:"מותר", text:"הפעם לא זימנו אותה לשום מקום. גם לא התקשרו." }
 ];
 
 const NOTES = [
-  { min:14, note:"ידעת כמעט על כל פוסט מה יקרה לו. זה לא אומר שיש כאן היגיון, זה אומר שהפנמת אותו. בשביל להגיע לדרגה הזאת צריך כבר לחשוב פעמיים לפני כל מילה." },
-  { min:10, note:"רוב הזמן קלעת. ככה עולים בדרגה במערכת הזאת: לומדים מה לא כותבים, ואז לא כותבים את זה." },
-  { min:6,  note:"חצי חצי. בערך המצב של מורה בשנה השלישית, שכבר נזהרת אבל עוד לא בטוחה ממה." },
-  { min:0,  note:"טעית כמעט בכל אחד, כי הנחת שיש כללים. אין. זה בדיוק מה שמרגיש מי שעומד שם מול הכיתה." }
+  { min:14, note:"כמעט על כל פוסט ידעתם מה יקרה לו. זה לא אומר שיש כאן היגיון, זה אומר שהפנמתם אותו. כדי להגיע לדרגה הזאת צריך כבר לחשוב פעמיים על כל מילה." },
+  { min:10, note:"רוב הזמן קלעתם. ככה עולים בדרגה במערכת הזאת: לומדים מה לא כותבים, ואז לא כותבים את זה." },
+  { min:6,  note:"חצי חצי. בערך המצב של מורה בשנה השלישית, שכבר נזהרת אבל עדיין לא בטוחה ממה." },
+  { min:0,  note:"טעיתם כמעט בכל אחד, כי הנחתם שיש כללים. אין. ככה מרגיש מי שעומד מול הכיתה." }
 ];
 
 /* ---------- state ---------- */
@@ -314,12 +329,17 @@ function levelFor(correct){
 }
 
 function paintRank(flash){
-  sprite($("gameSprite"), level);
+  const el = $("gameSprite");
+  sprite(el, level);
   $("rankNow").textContent = LEVELS[level].name;
   const lu = $("levelup");
   if(flash){
+    lu.textContent = "עלית דרגה";
     lu.classList.remove("hidden");
-    setTimeout(() => lu.classList.add("hidden"), 1800);
+    el.classList.remove("pop");
+    void el.offsetWidth;
+    el.classList.add("pop");
+    setTimeout(() => lu.classList.add("hidden"), 2000);
   }
 }
 
@@ -349,7 +369,7 @@ function answer(saidOk){
 
   const v = $("verdict");
   v.className = "verdict " + (right ? "good" : "wrong");
-  $("vTitle").textContent = it.title + (right ? ". צדקת" : ". טעית");
+  $("vTitle").textContent = it.title + (right ? ". צדקתם" : ". טעיתם");
   $("vText").textContent = it.text;
   $("btns").classList.add("hidden");
   v.classList.remove("hidden");
@@ -385,6 +405,18 @@ $("bGo").onclick = () => answer(true);
 $("bStop").onclick = () => answer(false);
 $("bNext").onclick = next;
 $("bAgain").onclick = start;
+$("bCopy").onclick = function(){
+  const url = "https://royherbertcohen-coder.github.io/shimua-game/";
+  const done = () => { this.textContent = "הקישור הועתק"; setTimeout(() => this.textContent = "העתקת הקישור", 2000); };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(done).catch(done);
+  } else {
+    const t = document.createElement("textarea");
+    t.value = url; document.body.appendChild(t); t.select();
+    try{ document.execCommand("copy"); }catch(e){}
+    document.body.removeChild(t); done();
+  }
+};
 
 sprite($("introSprite"), 0);
 </script>

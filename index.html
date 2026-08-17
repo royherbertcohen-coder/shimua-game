@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>מותר או שימוע</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f2ede4;
+    --card:#fffdf8;
+    --ink:#22201d;
+    --muted:#8a8378;
+    --ok:#2f9e6b;
+    --bad:#d64545;
+    --line:#e2dacb;
+    --shadow:0 10px 0 rgba(34,32,29,.08), 0 18px 40px rgba(34,32,29,.12);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:Rubik,"Segoe UI",Arial,sans-serif;
+    min-height:100dvh;
+    display:flex;align-items:center;justify-content:center;
+    padding:20px 16px 32px;
+  }
+  .wrap{width:100%;max-width:460px}
+
+  h1{font-size:32px;font-weight:900;margin:0 0 4px;letter-spacing:-.5px;text-align:center}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 16px;text-align:center}
+
+  .card{
+    background:var(--card);
+    border:2px solid var(--ink);
+    border-radius:22px;
+    box-shadow:var(--shadow);
+    padding:22px 20px;
+  }
+
+  /* intro */
+  .intro p{font-size:16px;line-height:1.65;margin:0 0 14px}
+  .intro p.big{font-size:18px;font-weight:700;line-height:1.5}
+  .intro .stat{font-weight:900}
+  .intro p.last{margin-bottom:0;color:#3c3831}
+
+  /* avatar */
+  .hero{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+  .sprite{width:86px;height:100px;flex:none;image-rendering:pixelated;
+          background:#e9e1d3;border:2px solid var(--ink);border-radius:16px;padding:6px}
+  .hero .rank small{display:block;color:var(--muted);font-size:12px;margin-bottom:2px}
+  .hero .rank b{font-size:19px;line-height:1.2;display:block}
+  .levelup{display:inline-block;margin-top:6px;font-size:12px;font-weight:700;
+           background:#ffe9a8;border:2px solid var(--ink);border-radius:99px;padding:2px 10px}
+
+  .bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:0 0 10px}
+  .bar span{display:block;height:100%;width:0;background:var(--ink);transition:width .25s ease}
+  .counter{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:12px}
+
+  .who{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .ava{width:38px;height:38px;border-radius:50%;background:#d9d0c0;border:2px solid var(--ink);flex:none}
+  .who b{display:block;font-size:15px}
+  .who small{color:var(--muted);font-size:12px}
+  .post{font-size:20px;line-height:1.5;font-weight:500;margin:0;min-height:90px}
+
+  .btns{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+  button{
+    font-family:inherit;font-size:18px;font-weight:700;
+    padding:16px 10px;border-radius:16px;border:2px solid var(--ink);
+    background:var(--card);color:var(--ink);cursor:pointer;
+    box-shadow:0 5px 0 var(--ink);
+    transition:transform .06s ease, box-shadow .06s ease;
+  }
+  button:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
+  button.go{background:#cfe9dc}
+  button.stop{background:#f5cfcf}
+  button.wide{width:100%;margin-top:16px;background:#ffe9a8}
+
+  .verdict{margin-top:16px;border:2px solid var(--ink);border-radius:18px;
+           background:var(--card);padding:16px 18px;box-shadow:var(--shadow)}
+  .verdict h3{margin:0 0 6px;font-size:19px}
+  .verdict p{margin:0;font-size:15px;line-height:1.55;color:#3c3831}
+  .verdict.good h3{color:var(--ok)}
+  .verdict.wrong h3{color:var(--bad)}
+  .next{width:100%;margin-top:14px}
+
+  .end{text-align:center}
+  .end .sprite{width:110px;height:128px;margin:0 auto 10px;display:block}
+  .score{font-size:56px;font-weight:900;line-height:1;margin:4px 0 0}
+  .of{color:var(--muted);font-size:14px;margin:0 0 12px}
+  .rankbig{font-size:22px;font-weight:900;margin:0 0 10px}
+  .end p.note{font-size:16px;line-height:1.65;color:#3c3831;margin:0 0 12px;text-align:right}
+  .end p.punch{font-size:17px;font-weight:700;line-height:1.5;margin:0;text-align:right}
+
+  footer{margin-top:18px;text-align:center;color:var(--muted);font-size:12px;line-height:1.7}
+  .hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>מותר או שימוע</h1>
+  <p class="sub">משחק על מורים, פוסטים, ומה שנשאר מזה</p>
+
+  <!-- ===== INTRO ===== -->
+  <div id="intro">
+    <div class="card intro">
+      <div class="hero">
+        <svg class="sprite" id="introSprite" viewBox="0 0 14 14"></svg>
+        <div class="rank">
+          <small>אתה מתחיל כאן</small>
+          <b>מתמחה בהוראה</b>
+        </div>
+      </div>
+      <p class="big"><span class="stat">77.5%</span> ממנהלי בתי הספר דיווחו על מחסור במורים. אחת הסיבות שמורים עוזבים: הם לא יודעים מה מותר להם לכתוב.</p>
+      <p>בשנתיים האחרונות מורים הוזמנו לשימוע בגלל פוסטים ברשתות. אין רשימה, אין כלל, אין גבול כתוב.</p>
+      <p>המשחק: 15 פוסטים. תחליט על כל אחד אם הוא עובר בשלום או מגיע לשימוע.</p>
+      <p class="last">כל תשובה נכונה מעלה אותך דרגה. תשים לב לזה בסוף.</p>
+      <button class="wide" id="bStart">מתחילים</button>
+    </div>
+  </div>
+
+  <!-- ===== GAME ===== -->
+  <div id="game" class="hidden">
+    <div class="card" style="margin-bottom:14px;padding:16px 18px">
+      <div class="hero" style="margin-bottom:0">
+        <svg class="sprite" id="gameSprite" viewBox="0 0 14 14"></svg>
+        <div class="rank">
+          <small>הדרגה שלך</small>
+          <b id="rankNow">מתמחה בהוראה</b>
+          <span class="levelup hidden" id="levelup">עלית דרגה</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="bar"><span id="prog"></span></div>
+    <div class="counter"><span id="idx">פוסט 1 מתוך 15</span><span id="pts">0 נכון</span></div>
+
+    <div class="card">
+      <div class="who">
+        <div class="ava"></div>
+        <div>
+          <b>מורה בחינוך הממלכתי</b>
+          <small>אתמול, 21:14</small>
+        </div>
+      </div>
+      <p class="post" id="post"></p>
+    </div>
+
+    <div class="btns" id="btns">
+      <button class="go" id="bGo">מותר</button>
+      <button class="stop" id="bStop">שימוע</button>
+    </div>
+
+    <div class="verdict hidden" id="verdict">
+      <h3 id="vTitle"></h3>
+      <p id="vText"></p>
+      <button class="next" id="bNext">הבא</button>
+    </div>
+  </div>
+
+  <!-- ===== END ===== -->
+  <div id="end" class="hidden">
+    <div class="card end">
+      <svg class="sprite" id="endSprite" viewBox="0 0 14 14"></svg>
+      <p class="score" id="fScore">0</p>
+      <p class="of">ניחושים נכונים מתוך 15</p>
+      <p class="rankbig" id="fRank"></p>
+      <p class="note" id="fNote"></p>
+      <p class="punch">מערכת שמלמדת מורים מה לא לכתוב, לא תמצא מורים חדשים שירצו לכתוב בה.</p>
+      <button class="wide" id="bAgain">עוד סיבוב</button>
+    </div>
+  </div>
+
+  <footer>
+    הפוסטים מומצאים. הנוהג פחות.<br>
+    מבוסס על נתוני מרכז המחקר והמידע של הכנסת ועל נייר עמדה בנושא משבר כוח האדם בהוראה
+  </footer>
+
+</div>
+
+<script>
+/* ---------- 8 bit teacher ---------- */
+const PAL = { k:"#22201d", h:"#4a3728", s:"#f0c9a0", w:"#ffffff", y:"#e8b93b", r:"#c0392b" };
+
+const BASE = [
+  ".....hhhh.....",
+  "...hhhhhhhh...",
+  "..hhhhhhhhhh..",
+  "..hhssssssshh.",
+  "..hsssssssssh.",
+  "..hsskssksssh.",
+  "..hsssssssssh.",
+  "..hssskkksssh.",
+  "....ssssss....",
+  "...tttttttt...",
+  "..tttttttttt..",
+  ".stttttttttts.",
+  ".stttttttttts.",
+  "...tttttttt..."
+];
+
+/* 6 levels. shirt color + accessories */
+const LEVELS = [
+  { name:"מתמחה בהוראה",     shirt:"#8fbfa9", acc:[] },
+  { name:"מורה מן המניין",   shirt:"#7fb0d6", acc:["mug"] },
+  { name:"רכזת שכבה",        shirt:"#c98fb5", acc:["mug","glasses"] },
+  { name:"סגנית מנהלת",      shirt:"#6f7fbf", acc:["glasses","clip"] },
+  { name:"מנהלת בית ספר",    shirt:"#4a5a7a", acc:["glasses","clip","tie"] },
+  { name:"מפקח מחוז",        shirt:"#2f3440", acc:["glasses","clip","tie","badge"] }
+];
+
+const ACC = {
+  glasses:[ [4,4,"k"],[4,5,"k"],[4,6,"k"],[4,7,"k"],[4,8,"k"],[4,9,"k"],
+            [5,4,"w"],[5,6,"w"],[5,7,"w"],[5,9,"w"] ],
+  mug:[ [11,0,"k"],[11,1,"k"],[11,2,"k"],
+        [12,0,"k"],[12,1,"w"],[12,2,"k"],
+        [13,0,"k"],[13,1,"k"],[13,2,"k"] ],
+  clip:[ [10,11,"k"],[10,12,"k"],[10,13,"k"],
+         [11,11,"k"],[11,12,"w"],[11,13,"k"],
+         [12,11,"k"],[12,12,"w"],[12,13,"k"],
+         [13,11,"k"],[13,12,"k"],[13,13,"k"] ],
+  tie:[ [9,6,"w"],[9,7,"w"],[10,6,"r"],[10,7,"r"],[11,6,"r"] ],
+  badge:[ [10,4,"y"],[11,4,"y"] ]
+};
+
+function sprite(el, level){
+  const L = LEVELS[level];
+  const grid = BASE.map(r => r.split(""));
+  let out = "";
+  for(let y=0;y<grid.length;y++){
+    for(let x=0;x<grid[y].length;x++){
+      const c = grid[y][x];
+      if(c === ".") continue;
+      const fill = (c === "t") ? L.shirt : PAL[c];
+      out += '<rect x="'+x+'" y="'+y+'" width="1" height="1" fill="'+fill+'"/>';
+    }
+  }
+  L.acc.forEach(a => ACC[a].forEach(p => {
+    out += '<rect x="'+p[1]+'" y="'+p[0]+'" width="1" height="1" fill="'+PAL[p[2]]+'"/>';
+  }));
+  el.innerHTML = out;
+}
+
+/* ---------- content ---------- */
+const ITEMS = [
+  { post:"היום למדנו את מגילת העצמאות. שוויון זכויות חברתי ומדיני גמור לכל אזרחיה.",
+    ok:false, title:"שימוע", text:"ציטוט ממסמך היסוד של המדינה. סווג כאמירה פוליטית." },
+
+  { post:"מזל טוב לזוגתי על יום ההולדת. את הכי טובה שיש.",
+    ok:true, title:"מותר", text:"עבר. הפעם." },
+
+  { post:"38 תלמידים בכיתה שלי. אין מקום לשולחן של המורה.",
+    ok:false, title:"שימוע", text:"פרסום נתונים על המוסד בלי אישור. פגיעה בתדמית." },
+
+  { post:"שיתפה כתבה על תקציב משרד החינוך.",
+    ok:false, title:"שימוע", text:"הכתבה הופיעה בעיתון שלא נמצא ברשימה." },
+
+  { post:"תמונה של החתול. כתוב מתחת: הוא מסכים איתי על הכל.",
+    ok:false, title:"שימוע", text:"נשאלה במה בדיוק הוא מסכים." },
+
+  { post:"שנה טובה לכל עם ישראל.",
+    ok:true, title:"מותר", text:"עבר בלי הערות." },
+
+  { post:"עשתה לייק לפוסט של מורה אחרת.",
+    ok:false, title:"שימוע", text:"לא הפוסט שלה. עדיין שלה." },
+
+  { post:"כל הכבוד לתלמידים שלי שיצאו להפגין. גאה בכם.",
+    ok:false, title:"שימוע", text:"את זו ניחשת בקלות. תמשיך, זה נגמר." },
+
+  { post:"אין מים חמים בחדר המורים כבר שבועיים.",
+    ok:false, title:"שימוע", text:"תלונה שהיה נכון להעביר בערוצים הפנימיים." },
+
+  { post:"סרטון של הכיתה שרה את התקווה בטקס.",
+    ok:true, title:"מותר", text:"אושר. אפילו שותף בעמוד הרשמי." },
+
+  { post:"היום 30 שנה לרצח רבין. דיברנו על זה בכיתה.",
+    ok:false, title:"שימוע", text:"נטען שהשיעור לא היה מאוזן." },
+
+  { post:"עייפה.",
+    ok:true, title:"מותר", text:"מילה אחת. אין על מה לתפוס." },
+
+  { post:"מחפשת עבודה. כל הצעה תתקבל בברכה.",
+    ok:true, title:"מותר", text:"על זה אף אחד לא קפץ. זאת בדיוק הבעיה." },
+
+  { post:"חוק חינוך ממלכתי, סעיף 2: לחנך לאהבת המולדת ולערכי דמוקרטיה.",
+    ok:false, title:"שימוע", text:"החוק עצמו. בלי פרשנות. בלי אימוג'י." },
+
+  { post:"התפטרתי. תודה לכולם על 14 שנה.",
+    ok:true, title:"מותר", text:"הפעם לא הזמינו אותה לשום מקום. גם לא התקשרו." }
+];
+
+const NOTES = [
+  { min:14, note:"ידעת כמעט על כל פוסט מה יקרה לו. זה לא אומר שיש כאן היגיון, זה אומר שהפנמת אותו. בשביל להגיע לדרגה הזאת צריך כבר לחשוב פעמיים לפני כל מילה." },
+  { min:10, note:"רוב הזמן קלעת. ככה עולים בדרגה במערכת הזאת: לומדים מה לא כותבים, ואז לא כותבים את זה." },
+  { min:6,  note:"חצי חצי. בערך המצב של מורה בשנה השלישית, שכבר נזהרת אבל עוד לא בטוחה ממה." },
+  { min:0,  note:"טעית כמעט בכל אחד, כי הנחת שיש כללים. אין. זה בדיוק מה שמרגיש מי שעומד שם מול הכיתה." }
+];
+
+/* ---------- state ---------- */
+let i = 0, score = 0, level = 0, answered = false;
+const $ = id => document.getElementById(id);
+
+function levelFor(correct){
+  if(correct >= 14) return 5;
+  if(correct >= 11) return 4;
+  if(correct >= 8)  return 3;
+  if(correct >= 5)  return 2;
+  if(correct >= 2)  return 1;
+  return 0;
+}
+
+function paintRank(flash){
+  sprite($("gameSprite"), level);
+  $("rankNow").textContent = LEVELS[level].name;
+  const lu = $("levelup");
+  if(flash){
+    lu.classList.remove("hidden");
+    setTimeout(() => lu.classList.add("hidden"), 1800);
+  }
+}
+
+function render(){
+  const it = ITEMS[i];
+  $("post").textContent = it.post;
+  $("idx").textContent = "פוסט " + (i+1) + " מתוך " + ITEMS.length;
+  $("pts").textContent = score + " נכון";
+  $("prog").style.width = (i / ITEMS.length * 100) + "%";
+  $("btns").classList.remove("hidden");
+  $("verdict").classList.add("hidden");
+  answered = false;
+}
+
+function answer(saidOk){
+  if(answered) return;
+  answered = true;
+  const it = ITEMS[i];
+  const right = (saidOk === it.ok);
+  if(right) score++;
+  $("pts").textContent = score + " נכון";
+
+  const newLevel = levelFor(score);
+  const jumped = newLevel > level;
+  level = newLevel;
+  paintRank(jumped);
+
+  const v = $("verdict");
+  v.className = "verdict " + (right ? "good" : "wrong");
+  $("vTitle").textContent = it.title + (right ? ". צדקת" : ". טעית");
+  $("vText").textContent = it.text;
+  $("btns").classList.add("hidden");
+  v.classList.remove("hidden");
+  $("bNext").textContent = (i === ITEMS.length - 1) ? "לתוצאה" : "הבא";
+}
+
+function next(){
+  i++;
+  if(i >= ITEMS.length){ finish(); return; }
+  render();
+}
+
+function finish(){
+  $("game").classList.add("hidden");
+  $("end").classList.remove("hidden");
+  sprite($("endSprite"), level);
+  $("fScore").textContent = score;
+  $("fRank").textContent = LEVELS[level].name;
+  $("fNote").textContent = NOTES.find(n => score >= n.min).note;
+}
+
+function start(){
+  i = 0; score = 0; level = 0;
+  $("intro").classList.add("hidden");
+  $("end").classList.add("hidden");
+  $("game").classList.remove("hidden");
+  paintRank(false);
+  render();
+}
+
+$("bStart").onclick = start;
+$("bGo").onclick = () => answer(true);
+$("bStop").onclick = () => answer(false);
+$("bNext").onclick = next;
+$("bAgain").onclick = start;
+
+sprite($("introSprite"), 0);
+</script>
+</body>
+</html>

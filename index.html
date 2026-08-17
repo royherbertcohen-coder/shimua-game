@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>מותר או שימוע</title>
-<meta name="description" content="משחק קצר על משבר כוח האדם בהוראה. 15 פוסטים של מורים, ואתם מחליטים מי מגיע לשימוע.">
+<meta name="description" content="משחק קצר על משבר כוח האדם בהוראה. 8 פוסטים של מורים, ואתם מחליטים מי מגיע לשימוע.">
 <meta property="og:title" content="מותר או שימוע">
-<meta property="og:description" content="15 פוסטים של מורים. תחליטו מי מגיע לשימוע.">
+<meta property="og:description" content="8 פוסטים של מורים. תחליטו מי מגיע לשימוע.">
 <meta property="og:url" content="https://royherbertcohen-coder.github.io/shimua-game/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -140,7 +140,7 @@
       </div>
       <p class="big"><span class="stat">77.5%</span> ממנהלי בתי הספר דיווחו בסוף תשפ"ב על מחסור במורים. אחת הסיבות שמורים עוזבים: הם כבר לא יודעים מה מותר להם לכתוב.</p>
       <p>בשנים האחרונות עשרות מורים זומנו לשימוע בגלל פוסטים ברשתות. רשימה של מה אסור לפרסם לא קיימת.</p>
-      <p class="last">15 פוסטים. תחליטו על כל אחד אם הוא עובר בשלום או מגיע לשימוע. כל תשובה נכונה מעלה אתכם דרגה, ושווה לשים לב לזה בסוף.</p>
+      <p class="last">8 פוסטים. תחליטו על כל אחד אם הוא עובר בשלום או מגיע לשימוע. כל תשובה נכונה מעלה אתכם דרגה, ושווה לשים לב לזה בסוף.</p>
       <button class="wide" id="bStart">מתחילים</button>
     </div>
   </div>
@@ -159,7 +159,7 @@
     </div>
 
     <div class="bar"><span id="prog"></span></div>
-    <div class="counter"><span id="idx">פוסט 1 מתוך 15</span><span id="pts">0 נכון</span></div>
+    <div class="counter"><span id="idx">פוסט 1 מתוך 8</span><span id="pts">0 נכון</span></div>
 
     <div class="card">
       <div class="who">
@@ -189,7 +189,7 @@
     <div class="card end">
       <svg class="sprite" id="endSprite" viewBox="0 0 14 14"></svg>
       <p class="score" id="fScore">0</p>
-      <p class="of">ניחושים נכונים מתוך 15</p>
+      <p class="of">ניחושים נכונים מתוך 8</p>
       <p class="rankbig" id="fRank"></p>
       <p class="note" id="fNote"></p>
       <p class="punch">אי אפשר לגייס מורים חדשים למערכת שמלמדת אותם לשתוק.</p>
@@ -311,47 +311,26 @@ const ITEMS = [
   { post:"38 תלמידים בכיתה שלי. אין מקום לשולחן של המורה.",
     ok:false, title:"שימוע", text:"פרסום נתונים על המוסד בלי אישור." },
 
-  { post:"שיתפה כתבה על תקציב משרד החינוך.",
-    ok:false, title:"שימוע", text:"הכתבה התפרסמה בעיתון שלא נמצא ברשימה." },
-
   { post:"תמונה של החתול. כתוב מתחת: הוא מסכים איתי על הכל.",
     ok:false, title:"שימוע", text:"נשאלה במה בדיוק הוא מסכים." },
-
-  { post:"שנה טובה לכל עם ישראל.",
-    ok:true, title:"מותר", text:"עבר בלי הערות." },
 
   { post:"עשתה לייק לפוסט של מורה אחרת.",
     ok:false, title:"שימוע", text:"לא הפוסט שלה. עדיין שלה." },
 
-  { post:"כל הכבוד לתלמידים שלי שיצאו להפגין. גאה בכם.",
-    ok:false, title:"שימוע", text:"כאן אפילו לא היה ויכוח." },
-
-  { post:"אין מים חמים בחדר המורים כבר שבועיים.",
-    ok:false, title:"שימוע", text:"תלונה שהיה נכון להעביר בערוצים הפנימיים." },
-
   { post:"סרטון: הכיתה שרה את התקווה בטקס.",
     ok:true, title:"מותר", text:"אושר. אפילו שותף בעמוד הרשמי." },
 
-  { post:"היום ציינו את יום הזיכרון לרצח רבין. דיברנו על זה בכיתה.",
-    ok:false, title:"שימוע", text:"נטען שהשיעור לא היה מאוזן." },
-
-  { post:"עייפה.",
-    ok:true, title:"מותר", text:"מילה אחת. אין על מה לתפוס." },
-
   { post:"מחפשת עבודה. כל הצעה תתקבל בברכה.",
     ok:true, title:"מותר", text:"על זה אף אחד לא קפץ." },
-
-  { post:"מתוך מטרות חוק חינוך ממלכתי: לחנך לאהבת המולדת ולערכי הדמוקרטיה.",
-    ok:false, title:"שימוע", text:"החוק עצמו. בלי פרשנות, בלי אימוג'י." },
 
   { post:"התפטרתי. תודה לכולם על 14 שנה.",
     ok:true, title:"מותר", text:"הפעם לא זימנו אותה לשום מקום. גם לא התקשרו." }
 ];
 
 const NOTES = [
-  { min:14, note:"ניחשתם כמעט הכל. לא כי יש היגיון, כי כבר הפנמתם אותו." },
-  { min:10, note:"רוב הזמן קלעתם. ככה עולים בדרגה: לומדים מה לא כותבים." },
-  { min:6,  note:"חצי חצי. כמו מורה בשנה השלישית: כבר נזהרת, עדיין לא יודעת ממה." },
+  { min:8, note:"ניחשתם כמעט הכל. לא כי יש היגיון, כי כבר הפנמתם אותו." },
+  { min:6, note:"רוב הזמן קלעתם. ככה עולים בדרגה: לומדים מה לא כותבים." },
+  { min:3,  note:"חצי חצי. כמו מורה בשנה השלישית: כבר נזהרת, עדיין לא יודעת ממה." },
   { min:0,  note:"טעיתם כמעט בכל אחד כי הנחתם שיש כללים. אין." }
 ];
 
@@ -360,11 +339,11 @@ let i = 0, score = 0, level = 0, answered = false;
 const $ = id => document.getElementById(id);
 
 function levelFor(correct){
-  if(correct >= 14) return 5;
-  if(correct >= 11) return 4;
-  if(correct >= 8)  return 3;
-  if(correct >= 5)  return 2;
-  if(correct >= 2)  return 1;
+  if(correct >= 8) return 5;
+  if(correct >= 7) return 4;
+  if(correct >= 5) return 3;
+  if(correct >= 3) return 2;
+  if(correct >= 1) return 1;
   return 0;
 }
 
